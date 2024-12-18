@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option csharp_namespace = "products";
+
+package product;
+
+import "protos/money.proto";
+
+
+service ProductsService
+{
+    rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse);
+    rpc GetProductById (GetProductByIdRequest) returns (GetProductByIdResponse);
+}
+
+
+message CreateProductRequest
+{
+    string name = 1;
+    google.type.Money price = 2;
+}
+
+message CreateProductResponse {
+    string name = 1;
+    google.type.Money price = 2;
+    int64 id = 3;
+}
+
+message GetProductByIdRequest
+{
+    int64 id = 1;
+}
+
+message GetProductByIdResponse {
+    string name = 1;
+    google.type.Money price = 2;
+    int64 id = 3;
+}

@@ -1,0 +1,143 @@
+syntax = "proto3";
+
+option csharp_namespace = "orderService";
+
+package order;
+
+
+import "google/protobuf/timestamp.proto";
+
+service OrdersService {
+
+    rpc CreateOrder (CreateOrderRequest) returns (CreateOrderResponse);
+    rpc GetOrderById (GetOrderByIdRequest) returns (GetOrderByIdResponse);
+    rpc AddProductToOrder (AddProductToOrderRequest) returns (AddProductToOrderResponse);
+    rpc DeleteProductFromOrder (DeleteProductFromOrderRequest) returns (DeleteProductFromOrderResponse);
+    rpc ChangeOrderStateToProcessing (ChangeOrderStateToProcessingRequest) returns (ChangeOrderStateToProcessingResponse);
+    rpc CompleteOrder (CompleteOrderRequest) returns (CompleteOrderResponse);
+    rpc CancelOrder (CancelOrderRequest) returns (CancelOrderResponse);
+    rpc SearchProductHistoryAsync (SearchProductHistoryRequest) returns (stream SearchProductHistoryResponse);
+}
+
+message CreateOrderRequest {
+    GrpcOrderState order_state = 1;
+    google.protobuf.Timestamp created_at = 2;
+    string created_by = 3;
+}
+
+message CreateOrderResponse {
+    GrpcOrderState order_state = 1;
+    google.protobuf.Timestamp created_at = 2;
+    string created_by = 3;
+    int64 order_id = 4;
+}
+
+message GetOrderByIdRequest {
+    int64 order_id = 1;
+}
+
+message GetOrderByIdResponse {
+    GrpcOrderState order_state = 1;
+    google.protobuf.Timestamp created_at = 2;
+    string created_by = 3;
+    int64 order_id = 4;
+}
+
+message AddProductToOrderRequest {
+    int64 order_id = 1;
+    int64 product_id = 2;
+    int32 quantity = 3;
+}
+
+message AddProductToOrderResponse {
+    int64 order_id = 1;
+    int64 product_id = 2;
+    int32 quantity = 3;
+    int64 order_item_id = 4;
+    bool deleted = 5;
+}
+
+message DeleteProductFromOrderRequest {
+    int64 order_id = 1;
+    int64 product_id = 2;
+}
+
+message DeleteProductFromOrderResponse {}
+
+message ChangeOrderStateToProcessingRequest {
+    int64 order_id = 1;
+}
+
+message ChangeOrderStateToProcessingResponse {}
+
+message CompleteOrderRequest {
+    int64 order_id = 1;
+}
+
+message CompleteOrderResponse {}
+
+message CancelOrderRequest {
+    int64 order_id = 1;
+}
+
+message CancelOrderResponse {}
+
+message SearchProductHistoryRequest {
+    int32 cursor = 1;
+    int32 page_size = 2;
+    int64 order_id = 3;
+    GrpcOrderHistoryItemKind order_history_item_kind = 4;
+}
+
+message SearchProductHistoryResponse {
+    int64 order_id = 1;
+    google.protobuf.Timestamp created_at = 2;
+    GrpcOrderHistoryItemKind order_history_item_kind = 3;
+
+    oneof OrderHistoryType {
+        OrderCreated order_created = 4;
+        ItemAddedToOrder item_added_to_order = 5;
+        ItemRemovedFromOrder item_removed_from_order = 6;
+        OrderStateChange order_state_change = 7;
+    }
+
+}
+
+
+message OrderCreated {
+    int64 order_id = 1;
+    google.protobuf.Timestamp created_at = 2;
+}
+
+message ItemAddedToOrder {
+
+    int64 product_id = 1;
+    int64 order_id = 2;
+    int32 quantity = 3;
+}
+
+message ItemRemovedFromOrder {
+    int64 product_id = 1;
+    int64 order_id = 2;
+}
+
+message OrderStateChange {
+    int64 order_id = 1;
+    GrpcOrderState previous_state = 2;
+    GrpcOrderState new_state = 3;
+}
+
+enum GrpcOrderState {
+    GRPC_ORDER_STATE_UNSPECIFIED = 0;
+    GRPC_ORDER_STATE_CREATED = 1;
+    GRPC_ORDER_STATE_PROCESSING = 2;
+    GRPC_ORDER_STATE_COMPLETED = 3;
+    GRPC_ORDER_STATE_CANCELLED = 4;
+}
+enum GrpcOrderHistoryItemKind {
+    GRPC_ORDER_HISTORY_ITEM_KIND_UNSPECIFIED = 0;
+    GRPC_ORDER_HISTORY_ITEM_KIND_CREATED = 1;
+    GRPC_ORDER_HISTORY_ITEM_KIND_ITEM_ADDED = 2;
+    GRPC_ORDER_HISTORY_ITEM_KIND_ITEM_REMOVED = 3;
+    GRPC_ORDER_HISTORY_ITEM_KIND_STATE_CHANGED = 4;
+}
