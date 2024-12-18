@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>task-3</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Itmo.Dev.Platform.Common"/>
+        <PackageReference Include="System.Collections.Immutable" />
+    </ItemGroup>
+
+</Project>

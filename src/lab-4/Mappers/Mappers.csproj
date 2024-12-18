@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>Itmo.Csharp.Microservices.Lab4.Mappers</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\lab-2\Task3\Task3.csproj" />
+      <ProjectReference Include="..\protos\protos.csproj" />
+    </ItemGroup>
+
+</Project>
