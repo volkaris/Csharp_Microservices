@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>task-1</RootNamespace>
+    </PropertyGroup>
+</Project>
