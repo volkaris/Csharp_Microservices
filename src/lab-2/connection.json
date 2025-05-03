@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "key": "OuterService:Options:Host",
+      "value": "localhost"
+    },
+    {
+      "key": "OuterService:Options:Port",
+      "value": "5432"
+    }
+  ],
+  "pageToken": null
+}

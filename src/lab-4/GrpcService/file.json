@@ -1,0 +1,10 @@
+{
+  "OuterService" : {
+    "Options" :
+    {
+      "Host": "localhost",
+      "Port" : 8084
+    }
+  }
+}
+  
